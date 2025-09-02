@@ -33,11 +33,11 @@ apiVersion: secrets.hashicorp.com/v1beta1
 kind: VaultStaticSecret
 metadata:
   namespace: yap-dev
-  name: app1-secret
+  name: app1-secret-2
 spec:
   destination:
     create: true
-    name: app1-secret
+    name: app1-secret-2
   hmacSecretData: true
   mount: kv1
   path: data/demo/xxx
