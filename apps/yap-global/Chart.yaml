@@ -1,5 +1,5 @@
 apiVersion: v2
-name: yap-globals
+name: yap-global
 description: A Helm chart for Kubernetes
 
 # A chart can be either an 'application' or a 'library' chart.
@@ -22,11 +22,3 @@ version: 0.1.0
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
 appVersion: "1.16.0"
-
-dependencies:
-  - name: vault
-    version: 0.30.1
-    repository: https://helm.releases.hashicorp.com
-  - name: vault-secrets-operator
-    version: 0.10.0
-    repository: https://helm.releases.hashicorp.com
