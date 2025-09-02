@@ -9,8 +9,8 @@ spec:
 apiVersion: secrets.hashicorp.com/v1beta1
 kind: VaultAuth
 metadata:
-  namespace: yap-dev
-  name: yap-dev
+  namespace: default
+  name: vault-auth
 spec:
   # required configuration
   # VaultConnectionRef of the corresponding VaultConnection CustomResource.
