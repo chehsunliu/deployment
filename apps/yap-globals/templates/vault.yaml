@@ -1,16 +1,16 @@
 apiVersion: secrets.hashicorp.com/v1beta1
 kind: VaultConnection
 metadata:
-  name: vault-connection
   namespace: default
+  name: vault-connection
 spec:
   address: http://yap-globals-vault.default.svc.cluster.local:8200
 ---
 apiVersion: secrets.hashicorp.com/v1beta1
 kind: VaultAuth
 metadata:
-  name: vault-auth
   namespace: default
+  name: vault-auth
 spec:
   # required configuration
   # VaultConnectionRef of the corresponding VaultConnection CustomResource.
