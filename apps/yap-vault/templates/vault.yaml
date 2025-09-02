@@ -40,6 +40,6 @@ spec:
     name: app1-secret-2
   hmacSecretData: true
   mount: kv1
-  path: data/demo/xxx
+  path: demo/xxx
   type: kv-v2
   vaultAuthRef: vault-auth
