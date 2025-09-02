@@ -28,3 +28,18 @@ spec:
     # ServiceAccount to use when authenticating to Vault
     # it is recommended to always provide a unique serviceAccount per Pod/application
     serviceAccount: default
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultStaticSecret
+metadata:
+  namespace: yap-dev
+  name: app1-secret
+spec:
+  destination:
+    create: true
+    name: app1-secret
+  hmacSecretData: true
+  mount: kv1
+  path: data/demo/xxx
+  type: kv-v2
+  vaultAuthRef: vault-auth
