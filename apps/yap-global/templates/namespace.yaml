@@ -7,6 +7,11 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
+  name: cloudflare
+---
+apiVersion: v1
+kind: Namespace
+metadata:
   name: yap-dev
 ---
 apiVersion: v1
