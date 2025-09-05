@@ -1,8 +1,8 @@
-{{/*---*/}}
-{{/*apiVersion: secrets.hashicorp.com/v1beta1*/}}
-{{/*kind: VaultConnection*/}}
-{{/*metadata:*/}}
-{{/*  namespace: vault*/}}
-{{/*  name: vault-connection*/}}
-{{/*spec:*/}}
-{{/*  address: http://yap-vault-internal.vault.svc.cluster.local:8200*/}}
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultConnection
+metadata:
+  namespace: vault
+  name: vault-connection
+spec:
+  address: http://secret-manager-vault-internal.vault.svc.cluster.local:8200
