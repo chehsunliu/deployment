@@ -25,7 +25,7 @@ spec:
             - name: TUNNEL_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: cloudflare/tunnel-tokens
+                  name: cloudflare-tunnel-tokens
                   key: ubuntu-202509
           command:
             # Configures tunnel run parameters
