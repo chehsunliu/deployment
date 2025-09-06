@@ -1,0 +1,26 @@
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  name: vault-auth
+spec:
+  vaultConnectionRef: vault/vault-connection
+  method: kubernetes
+  mount: kubernetes
+  kubernetes:
+    role: cloudflare
+    serviceAccount: default
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultStaticSecret
+metadata:
+  name: tunnel-tokens
+spec:
+  type: kv-v2
+  vaultAuthRef: vault-auth
+  destination:
+    create: true
+    name: tunnel-tokens
+  hmacSecretData: true
+  mount: cloudflare
+  path: tunnel-tokens

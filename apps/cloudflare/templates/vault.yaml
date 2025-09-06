@@ -1,5 +1,12 @@
 ---
 apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultConnection
+metadata:
+  name: vault-connection
+spec:
+  address: http://secret-manager-vault-internal.vault.svc.cluster.local:8200
+---
+apiVersion: secrets.hashicorp.com/v1beta1
 kind: VaultAuth
 metadata:
   name: vault-auth
@@ -8,7 +15,7 @@ spec:
   # VaultConnectionRef of the corresponding VaultConnection CustomResource.
   # If no value is specified the Operator will default to the `default` VaultConnection,
   # configured in its own Kubernetes namespace.
-  vaultConnectionRef: vault/vault-connection
+  vaultConnectionRef: vault-connection
   # Method to use when authenticating to Vault.
   method: kubernetes
   # Mount to use when authenticating to auth method.
