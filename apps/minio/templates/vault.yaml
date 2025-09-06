@@ -1,26 +1,33 @@
 ---
 apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultConnection
+metadata:
+  name: vault-connection
+spec:
+  address: http://secret-manager-vault-internal.vault.svc.cluster.local:8200
+---
+apiVersion: secrets.hashicorp.com/v1beta1
 kind: VaultAuth
 metadata:
   name: vault-auth
 spec:
-  vaultConnectionRef: vault/vault-connection
+  vaultConnectionRef: vault-connection
   method: kubernetes
   mount: kubernetes
   kubernetes:
-    role: cloudflare
+    role: minio
     serviceAccount: default
 ---
 apiVersion: secrets.hashicorp.com/v1beta1
 kind: VaultStaticSecret
 metadata:
-  name: tunnel-tokens
+  name: minio-credentials
 spec:
   type: kv-v2
   vaultAuthRef: vault-auth
   destination:
     create: true
-    name: tunnel-tokens
+    name: minio-credentials
   hmacSecretData: true
-  mount: cloudflare
-  path: tunnel-tokens
+  mount: global
+  path: minio/credentials
