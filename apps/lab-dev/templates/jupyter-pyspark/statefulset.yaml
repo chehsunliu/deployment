@@ -15,6 +15,19 @@ spec:
       labels:
         app: jupyter-pyspark
     spec:
+      initContainers:
+        - name: download-jars
+          image: curlimages/curl:latest
+          command:
+            - sh
+            - -c
+            - |
+              set -e
+              curl -L -o /extra-jars/bundle-2.29.52.jar   https://repo1.maven.org/maven2/software/amazon/awssdk/bundle/2.29.52/bundle-2.29.52.jar
+              curl -L -o /extra-jars/hadoop-aws-3.4.2.jar https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.4.2/hadoop-aws-3.4.2.jar
+          volumeMounts:
+            - name: extra-spark-jars
+              mountPath: /extra-jars
       containers:
         - name: jupyter-pyspark
           image: quay.io/jupyter/pyspark-notebook:spark-3.5.3
@@ -24,6 +37,8 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /home/jovyan/work
+            - name: extra-spark-jars
+              mountPath: /extra-jars
           resources:
             requests:
               cpu: "250m"
@@ -31,6 +46,9 @@ spec:
             limits:
               cpu: "1000m"
               memory: "2Gi"
+      volumes:
+        - name: extra-spark-jars
+          emptyDir: {}
   volumeClaimTemplates:
     - metadata:
         name: data
