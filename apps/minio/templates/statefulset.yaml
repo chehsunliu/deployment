@@ -20,7 +20,8 @@ spec:
           image: quay.io/minio/minio:latest
           args:
             - server
-            - --console-address="0.0.0.0:9001"
+            - --console-address
+            - ":9001"
             - /data
           env:
             - name: MINIO_ROOT_USER
