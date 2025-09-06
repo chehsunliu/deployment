@@ -25,13 +25,19 @@ spec:
               set -e
               hadoop_version="3.3.4"
 
-              curl -L -o /extra-jars/aws-java-sdk-bundle-1.12.262.jar https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.12.262/aws-java-sdk-bundle-1.12.262.jar
-              curl -L -o /extra-jars/hadoop-aws-$hadoop_version.jar https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/$hadoop_version/hadoop-aws-$hadoop_version.jar
+              curl -L -o /extra-jars/aws-java-sdk-bundle-1.12.262.jar         https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.12.262/aws-java-sdk-bundle-1.12.262.jar
+              curl -L -o /extra-jars/hadoop-aws-$hadoop_version.jar           https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/$hadoop_version/hadoop-aws-$hadoop_version.jar
+              curl -L -o /extra-jars/iceberg-spark-runtime-3.5_2.12-1.9.2.jar https://repo1.maven.org/maven2/org/apache/iceberg/iceberg-spark-runtime-3.5_2.12/1.9.2/iceberg-spark-runtime-3.5_2.12-1.9.2.jar
           volumeMounts:
             - name: extra-spark-jars
               mountPath: /extra-jars
       containers:
         - name: jupyter-pyspark
+          # This image contains Spark-related JARs like the following:
+          # - hadoop-client-api-3.3.4.jar
+          # - hadoop-client-runtime-3.3.4.jar
+          # - spark-core_2.12-3.5.3.jar
+          # - spark-common-utils_2.12-3.5.3.jar
           image: quay.io/jupyter/pyspark-notebook:spark-3.5.3
           ports:
             - containerPort: 8888
