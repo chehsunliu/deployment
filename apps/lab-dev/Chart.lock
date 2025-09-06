@@ -1,0 +1,6 @@
+dependencies:
+- name: trino
+  repository: https://trinodb.github.io/charts
+  version: 1.40.0
+digest: sha256:542567aa51d6ddb4bad767f6d6504058d331fd8e454950d2237b9348aff70399
+generated: "2025-09-06T21:02:51.293372+08:00"
