@@ -16,6 +16,9 @@ spec:
       containers:
         - name: postgres
           image: postgres:17.6
+          args:
+            - "-c"
+            - "log_statement=all"
           ports:
             - containerPort: 5432
               name: postgres
