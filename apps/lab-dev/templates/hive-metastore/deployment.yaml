@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: hive-metastore
-  namespace: hive
 spec:
   replicas: 1
   selector:
