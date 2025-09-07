@@ -35,6 +35,20 @@ spec:
 apiVersion: secrets.hashicorp.com/v1beta1
 kind: VaultStaticSecret
 metadata:
+  name: jupyter-credentials
+spec:
+  type: kv-v2
+  vaultAuthRef: vault-auth
+  destination:
+    create: true
+    name: jupyter-credentials
+  hmacSecretData: true
+  mount: global
+  path: lab-dev/jupyter
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultStaticSecret
+metadata:
   name: minio-credentials
 spec:
   type: kv-v2

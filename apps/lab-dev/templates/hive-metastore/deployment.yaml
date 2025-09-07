@@ -14,6 +14,7 @@ spec:
     spec:
       containers:
         - name: metastore
+          # https://github.com/naushadh/hive-metastore
           image: naushadh/hive-metastore:1.0
           ports:
             - containerPort: 9083
