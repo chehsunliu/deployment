@@ -31,3 +31,17 @@ spec:
   hmacSecretData: true
   mount: global
   path: lab-dev/postgres
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultStaticSecret
+metadata:
+  name: minio-credentials
+spec:
+  type: kv-v2
+  vaultAuthRef: vault-auth
+  destination:
+    create: true
+    name: minio-credentials
+  hmacSecretData: true
+  mount: global
+  path: minio/credentials
