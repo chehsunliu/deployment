@@ -59,4 +59,4 @@ spec:
               value: lab
 
             - name: S3_PREFIX
-              value: dev/hive-metastore
+              value: dev/catalogs/default
