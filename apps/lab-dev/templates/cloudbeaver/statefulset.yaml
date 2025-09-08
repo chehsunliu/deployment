@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: cloudbeaver
+spec:
+  serviceName: cloudbeaver
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cloudbeaver
+  template:
+    metadata:
+      labels:
+        app: cloudbeaver
+    spec:
+      containers:
+        - name: main
+          image: dbeaver/cloudbeaver:25.2
+          ports:
+            - containerPort: 8978
+              name: http
+          volumeMounts:
+            - name: cloudbeaver-data
+              mountPath: /var/cloudbeaver/workspace
+  volumeClaimTemplates:
+    - metadata:
+        name: cloudbeaver-data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi
