@@ -1,4 +1,9 @@
 trino:
+  server:
+    log:
+      trino:
+        level: DEBUG
+
   catalogs:
     iceberg: |
       connector.name=iceberg
