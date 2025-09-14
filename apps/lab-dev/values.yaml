@@ -15,6 +15,12 @@ trino:
   additionalConfigProperties:
     - http-server.process-forwarded=true
 
+  accessControl:
+    type: properties
+    properties: |
+      access-control.name=opa
+      opa.policy.uri=http://nginx.lab-dev.svc.cluster.local/v1/data/trino/allow
+
   env:
     - name: LAB_HMS_URI
       value: thrift://hive-metastore.lab-dev.svc.cluster.local:9083
