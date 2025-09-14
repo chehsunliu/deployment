@@ -20,6 +20,9 @@ trino:
   additionalConfigProperties:
     - http-server.process-forwarded=true
 
+  additionalLogProperties:
+    - io.trino.plugin.opa=DEBUG
+
   accessControl:
     type: properties
     properties: |
