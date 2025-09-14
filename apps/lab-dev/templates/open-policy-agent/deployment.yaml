@@ -1,31 +1,35 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx
+  name: opa
   labels:
-    app: nginx
+    app: opa
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: nginx
+      app: opa
   template:
     metadata:
       labels:
-        app: nginx
+        app: opa
     spec:
       containers:
-        - name: nginx
-          image: nginx:1.29-alpine
+        - name: main
+          image: openpolicyagent/opa:1.7.1
+          args:
+            - run
+            - --server
+            - --addr=0.0.0.0:8181
+            - /policy
           ports:
-            - containerPort: 80
+            - containerPort: 8181
               name: http
-
           volumeMounts:
-            - name: nginx-config-volume
-              mountPath: /etc/nginx/conf.d/default.conf
-              subPath: default.conf
+            - name: opa-config-volume
+              mountPath: /policy/trino.rego
+              subPath: trino.rego
       volumes:
-        - name: nginx-config-volume
+        - name: opa-config-volume
           configMap:
-            name: nginx-config
+            name: opa-config
