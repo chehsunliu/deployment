@@ -20,14 +20,12 @@ trino:
   additionalConfigProperties:
     - http-server.process-forwarded=true
 
-  additionalLogProperties:
-    - io.trino.plugin.opa.OpaHttpClient=DEBUG
-
   accessControl:
     type: properties
     properties: |
       access-control.name=opa
       opa.policy.uri=http://opa.lab-dev.svc.cluster.local/v1/data/trino/allow
+      opa.policy.row-filters-uri=http://opa.lab-dev.svc.cluster.local/v1/data/trino/row_filters
 
   env:
     - name: LAB_HMS_URI

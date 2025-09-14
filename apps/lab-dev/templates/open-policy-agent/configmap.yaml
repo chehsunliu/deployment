@@ -7,3 +7,5 @@ data:
     package trino
 
     allow := true
+
+    rowFilters := []
