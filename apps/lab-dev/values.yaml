@@ -27,7 +27,7 @@ trino:
     type: properties
     properties: |
       access-control.name=opa
-      opa.policy.uri=http://nginx.lab-dev.svc.cluster.local/v1/data/trino/allow
+      opa.policy.uri=http://opa.lab-dev.svc.cluster.local/v1/data/trino/allow
 
   env:
     - name: LAB_HMS_URI
