@@ -21,7 +21,7 @@ trino:
     - http-server.process-forwarded=true
 
   additionalLogProperties:
-    - io.trino.*=DEBUG
+    - io.trino.plugin.opa.OpaHttpClient=DEBUG
 
   accessControl:
     type: properties
