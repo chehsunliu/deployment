@@ -4,17 +4,12 @@ metadata:
   name: nginx-config
 data:
   default.conf: |
-    log_format custom_body_log '$remote_addr - $remote_user [$time_local] '
-                               '"$request" $status $body_bytes_sent '
-                               '"$http_referer" "$http_user_agent" '
-                               '$request_body';
+    log_format postdata $request_body;
 
     server {
         listen       80;
         listen  [::]:80;
         server_name  localhost;
-
-        access_log /dev/stdout custom_body_log;
 
         location / {
             root   /usr/share/nginx/html;
@@ -24,6 +19,7 @@ data:
         location /v1/data/trino/allow {
             default_type "application/json";
             return 200 '{"allow":true}';
+            access_log /dev/stdout postdata;
         }
 
         #error_page  404              /404.html;
