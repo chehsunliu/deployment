@@ -31,3 +31,17 @@ spec:
   hmacSecretData: true
   mount: global
   path: keycloak/postgres
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultStaticSecret
+metadata:
+  name: keycloak-credentials
+spec:
+  type: kv-v2
+  vaultAuthRef: vault-auth
+  destination:
+    create: true
+    name: keycloak-credentials
+  hmacSecretData: true
+  mount: global
+  path: keycloak/keycloak
