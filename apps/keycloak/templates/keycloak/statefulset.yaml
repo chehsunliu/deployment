@@ -68,13 +68,13 @@ spec:
             - name: KC_DB_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: keycloak-credentials
-                  key: bootstrap-username
+                  name: postgres-credentials
+                  key: username
             - name: KC_DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: keycloak-credentials
-                  key: bootstrap-password
+                  name: postgres-credentials
+                  key: password
           ports:
             - name: http
               containerPort: 8080

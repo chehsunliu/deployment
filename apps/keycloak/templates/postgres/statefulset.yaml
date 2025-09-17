@@ -22,19 +22,16 @@ spec:
           env:
             - name: POSTGRES_DB
               value: keycloak-db
-
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
                   name: postgres-credentials
                   key: username
-
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: postgres-credentials
                   key: password
-
           volumeMounts:
             - name: postgres-data
               mountPath: /var/lib/postgresql
