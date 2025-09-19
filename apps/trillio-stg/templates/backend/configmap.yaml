@@ -1,0 +1,102 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: oauth2-proxy-config
+data:
+  oauth2-proxy.toml: |
+    http_address = ":4180"
+    reverse_proxy = true
+    upstreams = []
+
+    ## pass HTTP Basic Auth, X-Forwarded-User and X-Forwarded-Email information to upstream
+    set_xauthrequest = true
+    pass_user_headers = true
+    pass_access_token = true
+    set_authorization_header = true
+
+    ## Cookie Settings
+    session_store_type = "redis"
+    cookie_name = "_oauth2_proxy"
+    cookie_secret = "<from-envvar>"
+    cookie_expire = "168h"
+    cookie_secure = true
+    cookie_refresh = "1m"
+    redis_connection_url = "redis://redis.trillio-stg.svc.cluster.local:6379/1"
+
+    ## Keycloak
+    provider = "keycloak-oidc"
+    client_id = "trillio-stg"
+    client_secret = "<from-envvar>"
+    redirect_url = "https://trillio-stg.chehsunliu.dev/oauth2/callback"
+    oidc_issuer_url = "https://login.chehsunliu.dev/realms/stg"
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+data:
+  nginx.conf: |
+    server {
+      listen       80;
+      listen  [::]:80;
+      server_name  localhost;
+
+      location /oauth2/ {
+        proxy_pass       http://127.0.0.1:4180;
+        proxy_set_header Host                    $host;
+        proxy_set_header X-Real-IP               $remote_addr;
+        proxy_set_header X-Auth-Request-Redirect $request_uri;
+      }
+
+      location = /oauth2/auth {
+        proxy_pass       http://127.0.0.1:4180;
+        proxy_set_header Host                     $host;
+        proxy_set_header X-Real-IP                $remote_addr;
+        proxy_set_header X-Auth-Request-Redirect  $request_uri;
+
+        # nginx auth_request includes headers but not body
+        proxy_set_header Content-Length   "";
+        proxy_pass_request_body           off;
+      }
+
+      location / {
+        auth_request /oauth2/auth;
+
+        auth_request_set $user               $upstream_http_x_auth_request_user;
+        auth_request_set $access_token       $upstream_http_x_auth_request_access_token;
+        auth_request_set $authorization      $upstream_http_authorization;
+
+        proxy_set_header X-User         $user;
+        proxy_set_header X-Access-Token $access_token;
+        proxy_set_header Authorization  $authorization;
+
+        # if you enabled --cookie-refresh, this is needed for it to work with auth_request
+        auth_request_set $auth_cookie $upstream_http_set_cookie;
+        add_header Set-Cookie $auth_cookie;
+
+        # When using the --set-authorization-header flag, some provider's cookies can exceed the 4kb
+        # limit and so the OAuth2 Proxy splits these into multiple parts.
+        # Nginx normally only copies the first `Set-Cookie` header from the auth_request to the response,
+        # so if your cookies are larger than 4kb, you will need to extract additional cookies manually.
+        auth_request_set $auth_cookie_name_upstream_1 $upstream_cookie_auth_cookie_name_1;
+
+        # Extract the Cookie attributes from the first Set-Cookie header and append them
+        # to the second part ($upstream_cookie_* variables only contain the raw cookie content)
+        if ($auth_cookie ~* "(; .*)") {
+          set $auth_cookie_name_0 $auth_cookie;
+          set $auth_cookie_name_1 "auth_cookie_name_1=$auth_cookie_name_upstream_1$1";
+        }
+
+        # Send both Set-Cookie headers now if there was a second part
+        if ($auth_cookie_name_upstream_1) {
+          add_header Set-Cookie $auth_cookie_name_0;
+          add_header Set-Cookie $auth_cookie_name_1;
+        }
+
+        root   /usr/share/nginx/html;
+        index  index.html index.htm;
+      }
+    }
+
