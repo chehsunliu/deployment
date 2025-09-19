@@ -31,6 +31,7 @@ data:
     redirect_url = "https://trillio-stg.chehsunliu.dev/oauth2/callback"
     oidc_issuer_url = "https://login.chehsunliu.dev/realms/stg"
     email_domains = ["example.org"]
+    insecure_oidc_allow_unverified_email = true
 
 ---
 apiVersion: v1
