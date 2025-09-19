@@ -30,7 +30,7 @@ data:
     client_secret = "<from-envvar>"
     redirect_url = "https://trillio-stg.chehsunliu.dev/oauth2/callback"
     oidc_issuer_url = "https://login.chehsunliu.dev/realms/stg"
-    email_domain = "example.org"
+    email_domains = ["example.org"]
 
 ---
 apiVersion: v1
