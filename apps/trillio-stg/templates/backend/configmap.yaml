@@ -97,8 +97,7 @@ data:
           add_header Set-Cookie $auth_cookie_name_1;
         }
 
-        root   /usr/share/nginx/html;
-        index  index.html index.htm;
+        proxy_pass http://localhost:8080;
       }
     }
 

@@ -14,6 +14,8 @@ spec:
     metadata:
       labels:
         app: backend
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "backend/configmap.yaml") . | sha256sum }}
     spec:
       containers:
         - name: nginx
@@ -47,6 +49,13 @@ spec:
             - name: oauth2-proxy-config-volume
               mountPath: /etc/oauth2-proxy.toml
               subPath: oauth2-proxy.toml
+        - name: main
+          image: ealen/echo-server:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: PORT
+              value: "8080"
       volumes:
         - name: oauth2-proxy-config-volume
           configMap:
