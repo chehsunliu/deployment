@@ -14,6 +14,8 @@ spec:
     metadata:
       labels:
         app: backend-1
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
     spec:
       containers:
         - name: nginx
@@ -25,6 +27,39 @@ spec:
             - name: nginx-static-content-volume
               mountPath: /usr/share/nginx/html/index.html
               subPath: backend-1.index.html
+      volumes:
+        - name: nginx-static-content-volume
+          configMap:
+            name: nginx-static-content
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-2
+  labels:
+    app: backend-2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend-2
+  template:
+    metadata:
+      labels:
+        app: backend-2
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.29-alpine
+          ports:
+            - name: http
+              containerPort: 80
+          volumeMounts:
+            - name: nginx-static-content-volume
+              mountPath: /usr/share/nginx/html/index.html
+              subPath: backend-2.index.html
       volumes:
         - name: nginx-static-content-volume
           configMap:

@@ -11,3 +11,16 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-2
+spec:
+  selector:
+    app: backend-2
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: http
