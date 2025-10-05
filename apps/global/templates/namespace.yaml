@@ -12,4 +12,9 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: istio
+  name: istio-system
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: istio-ingress

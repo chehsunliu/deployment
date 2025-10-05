@@ -1,5 +1,5 @@
 apiVersion: v2
-name: istio-deployment
+name: istio-system-deployment
 description: A Helm chart for Kubernetes
 
 type: application
