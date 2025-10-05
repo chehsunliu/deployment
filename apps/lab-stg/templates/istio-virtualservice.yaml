@@ -23,7 +23,7 @@ spec:
   gateways:
     - shared-gateway
   hosts:
-    - backend-2-lab-stg.chehsunliu.dev
+    - backend-2.lab-stg.chehsunliu.dev
   http:
     - route:
         - destination:
