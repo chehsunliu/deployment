@@ -1,0 +1,24 @@
+airflow:
+  useStandardNaming: true
+
+  createUserJob:
+    useHelmHooks: false
+    applyCustomEnv: false
+
+  migrateDatabaseJob:
+    useHelmHooks: false
+    applyCustomEnv: false
+    jobAnnotations:
+      "argocd.argoproj.io/hook": Sync
+
+  extraSecrets:
+    '{{ .Release.Name }}-example':
+      useHelmHooks: false
+      data: |
+        AIRFLOW_VAR_HELLO_MESSAGE: "Hi!"
+
+  extraConfigMaps:
+    '{{ .Release.Name }}-example':
+      useHelmHooks: false
+      data: |
+        AIRFLOW_VAR_HELLO_MESSAGE: "Hi!"
