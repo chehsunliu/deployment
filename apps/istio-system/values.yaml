@@ -1,0 +1,3 @@
+istiod:
+  meshConfig:
+    accessLogFile: /dev/stdout
