@@ -21,3 +21,11 @@ spec:
           ports:
             - name: http
               containerPort: 80
+          volumeMounts:
+            - name: nginx-static-content-volume
+              mountPath: /usr/share/nginx/html/index.html
+              subPath: backend-1.index.html
+      volumes:
+        - name: nginx-static-content-volume
+          configMap:
+            name: nginx-static-content
